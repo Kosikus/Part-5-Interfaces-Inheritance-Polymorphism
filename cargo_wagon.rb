@@ -1,9 +1,9 @@
 class CargoWagon < Wagon
-    attr_reader :type
+  attr_reader :type
 
-	def initialize(name)
-		super
+  def initialize(name)
+	super
 
-		@type = :cargo
-	end
+	@type = :cargo
+  end
 end

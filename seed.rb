@@ -1,3 +1,5 @@
+# Посевные данные для теста основной программы main.rb
+
 class Seed
   def self.stations
     [
@@ -32,24 +34,58 @@ class Seed
     ]
   end
 
-  def self.trains(all_wagons)
-    wagons = all_wagons
-    trains = []
+  def self.routes(stations)
+    route0 = Route.new(stations[0], stations[4]) # Ивановка - Балашиха
 
-    puts PassengerTrain.new('PT99').methods
+    route1 = Route.new(stations[2], stations[6]) # Майдановка - Васюки
+    route1.add_station(stations[0])
+    route1.add_station(stations[5])
 
-    p1 = PassengerTrain.new('PT24'); p1.add_wagon(wagons[0]); p1.add_wagon(wagons[1])
-    p2 = PassengerTrain.new('PT17'); p2.add_wagon(wagons[2]); p2.add_wagon(wagons[3])
+    route2 = Route.new(stations[1], stations[5]) # Петровка - Маяковская
+    route2.add_station(stations[0])
+    route2.add_station(stations[2])
+    route2.add_station(stations[3])
+    route2.add_station(stations[4])
+    route2.add_station(stations[6])
 
-    c1 = CargoTrain.new('CT63'); c1.add_wagon(wagons[6]); c1.add_wagon(wagons[7])
-    c2 = CargoTrain.new('CT49'); c2.add_wagon(wagons[8])
+    [route0, route1, route2]
+  end
 
-    [
-      p1,
-      p2,
 
-      c1,
-      c2
-    ]
+  def self.trains(wagons, routes)
+    p0 = PassengerTrain.new('PT83')
+
+    p1 = PassengerTrain.new('PT24') # Майдановка - Васюки
+    p1.add_wagon(wagons[0])
+    p1.add_wagon(wagons[1])
+    p1.set_route(routes[1])
+
+    p2 = PassengerTrain.new('PT17')  # Майдановка - Васюки
+    p2.add_wagon(wagons[2])
+    p2.add_wagon(wagons[3])
+    p2.add_wagon(wagons[4])
+    p2.add_wagon(wagons[5])
+    p2.set_route(routes[1])
+
+    c0 = CargoTrain.new('CT63') # Ивановка - Балашиха
+    c0.set_route(routes[0])
+
+    c1 = CargoTrain.new('CT49') # Майдановка - Васюки
+    c1.add_wagon(wagons[6])
+    c1.set_route(routes[1])
+
+    c2 = CargoTrain.new('CT77') # Петровка - Маяковская
+    c2.add_wagon(wagons[7])
+    c2.add_wagon(wagons[8])
+    c2.set_route(routes[2])
+
+    c3 = CargoTrain.new('CT58') # Ивановка - Балашиха
+    c3.add_wagon(wagons[9])
+    c3.add_wagon(wagons[10])
+    c3.add_wagon(wagons[11])
+    c3.add_wagon(wagons[12])
+    c3.set_route(routes[0])
+
+    [p0, p1, p2, c0, c1, c2, c3]
   end
 end

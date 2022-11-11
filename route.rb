@@ -1,8 +1,3 @@
-# Курс: "Основы Ruby [Полная програмаа - 2022]"
-# Задание: "Основы ООП в Ruby"
-# Класс "Route"
-# Студент: Константин Голуб (Kos)
-
 class Route
   attr_reader :departure_station, :arrival_station, :stations
 
@@ -22,6 +17,8 @@ class Route
 
   # Удаление промежуточной станции (аргумент - объект)
   # Станция не должна быть начальной или конечной
+  # (ВОПРОС - что будет с поездом, если удаляемая станция совпадает с текущей?
+  # тогда смещать поезд на одну станцию вперёд или назад?)
   def delete_station(station)
     if self.stations.include?(station) &&
        station != self.departure_station &&
@@ -32,12 +29,24 @@ class Route
 
   # Вывод всех станций от начальной до конечной в порядке следования по маршруту
   def stations_list
-    self.stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
+    self.stations.map.with_index(1) { |station, index| "#{index}. #{station.name}" }.join("\n")
   end
 
+  # массив промежуточных станций
+  def intermediate_stations
+    self.stations.slice(1..-2)
+  end
+
+  # текстовой нумерованный список (начиная с 2-ки), всех промежуточных станций маршрута
+  def intermediate_stations_list
+    self.intermediate_stations.
+         map.with_index(2) { |station, index| "  #{index}. \"#{station.name}\"" }.
+         join("\n")
+  end
+
+  # Короткое обозначение маршрута вида
+  # "cтанция отправления -> станция назначения"
   def to_s
-    # Короткое обозначение маршрута вида
-    # "cтанция отправления -> станция назначения"
     "\"#{self.departure_station.name}\" -> \"#{self.arrival_station.name}\""
   end
 end
